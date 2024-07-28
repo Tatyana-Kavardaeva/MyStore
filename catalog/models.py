@@ -61,6 +61,12 @@ class Product(models.Model):
         verbose_name="Дата обновления",
         help_text="Дата и время последнего обновления продукта"
     )
+    manufactured_at = models.DateTimeField(
+        verbose_name="Дата производства",
+        help_text="Дата и время, когда продукт был произведен",
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         pass
