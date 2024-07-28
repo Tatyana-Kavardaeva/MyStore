@@ -54,12 +54,16 @@ class Product(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания",
-        help_text="Дата и время создания продукта"
+        help_text="Дата и время создания продукта",
+        null=True,
+        blank=True,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name="Дата обновления",
-        help_text="Дата и время последнего обновления продукта"
+        help_text="Дата и время последнего обновления продукта",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
