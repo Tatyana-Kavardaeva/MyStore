@@ -67,7 +67,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        pass
+        return f'{self.name} {self.category}'
 
     class Meta:
         verbose_name = 'Продукт'
