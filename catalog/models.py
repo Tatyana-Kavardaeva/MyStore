@@ -39,31 +39,24 @@ class Product(models.Model):
     )
     category = models.ForeignKey(
         Category,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         verbose_name="Категория",
         help_text="Введите категорию продукта",
-        null=True,
-        blank=True,
         related_name='catalog'
     )
     price = models.IntegerField(
-        verbose_name="Стоимость продукта",
-        default=0,
-        help_text="Введите целое стоимость"
+        verbose_name="Стоимость",
+        help_text="Введите стоимость"
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания",
         help_text="Дата и время создания продукта",
-        null=True,
-        blank=True,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name="Дата обновления",
         help_text="Дата и время последнего обновления продукта",
-        null=True,
-        blank=True,
     )
 
     def __str__(self):
