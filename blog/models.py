@@ -5,7 +5,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название')
     body = models.TextField(verbose_name='Содержание')
     image = models.ImageField(
-        upload_to="products/image",
+        upload_to="blogs/image",
         blank=True,
         null=True,
         verbose_name="Изображение",
