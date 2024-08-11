@@ -1,21 +1,24 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <form class="row" method="post" enctype="multipart/form-data">
-                <div class="card text-center">
-                    <p class="card-text">Действительно хотите удалить данные собаки {{ object.name }}</p>
-                    <div class="card-body">
-                        {% csrf_token %}
-                    </div>
+    <div class="container">
+        <div class="col">
+            <div class="card shadow-sm">
+                <h5 class="card-title"><strong>"{{ object.name }}"</strong></h5>
+                <img src="{{ object.image | media_filter }}">
 
-                    <button type="submit" class="btn btn btn-danger">Удалить</button>
-                    <a href="{% url 'dogs:dogs_list' %}" class="btn btn-link"">Отменить</a>
+                <div class="card-body">
+                    <p class="card-text">{{ object.description }}</p>
+                    <p class="card-text">Категория: {{ object.category }}</p>
+                    <p class="card-text">Стоимость: {{ object.price }} руб.</p>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a type="button" class="btn btn-outline-success" href="#"
+                           role="button">Купить</a>
+                        <a type="button" class="btn btn btn-outline-dark" href="{% url 'catalog:products_list' %}"
+                           role="button">Назад</a>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
