@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from blog.models import Blog
+
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+    list_filter = ('created_at', 'is_published')
+    search_fields = ('name', 'descriptions')
