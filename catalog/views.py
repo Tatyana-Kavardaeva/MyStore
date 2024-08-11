@@ -1,27 +1,24 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, TemplateView
+
 from catalog.models import Product
 
 
-def base(request):
-    return render(request, 'main/templates/catalog/base.html')
+class ProductListView(ListView):
+    model = Product
 
 
-def products_list(request):
-    products = Product.objects.all()
-    context = {'products': products}
-    return render(request, 'main/templates/catalog/products_list.html', context)
+class ProductDetailView(DetailView):
+    model = Product
 
 
-def products_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {'product': product}
-    return render(request, 'main/templates/catalog/products_detail.html', context)
+class ContactPageView(TemplateView):
+    template_name = "catalog/contact.html"
 
-
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        print(f'You have new message from {name}({phone}): {message}')
-    return render(request, 'main/templates/catalog/contact.html')
+    def post(self, request, *args, **kwargs):
+        if request.method == "POST":
+            name = request.POST.get("name")
+            phone = request.POST.get("phone")
+            message = request.POST.get("message")
+            print(f'You have new message from {name}({phone}): {message}')
+        return render(request, "catalog/contact.html")
