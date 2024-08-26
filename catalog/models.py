@@ -1,6 +1,9 @@
 from django.db import models
 
 
+NULLABLE = {"blank": True, "null": True}
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100,
                             help_text='Введите название категории',
@@ -25,10 +28,10 @@ class Product(models.Model):
         verbose_name='Наименование'
     )
     description = models.TextField(
-        blank=True,
-        null=True,
         help_text='Введите описание продукта',
-        verbose_name='Описание')
+        verbose_name='Описание',
+        **NULLABLE
+    )
 
     image = models.ImageField(
         upload_to="products/image",
@@ -66,3 +69,40 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ["category", "name", "price", "created_at", "updated_at"]
+
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        verbose_name="продукт",
+        help_text='выберите продукт',
+        related_name='version',
+        **NULLABLE
+    )
+    number = models.PositiveIntegerField(
+        help_text='Укажите номер версии',
+        verbose_name='Номер',
+        **NULLABLE
+    )
+    name = models.CharField(
+        max_length=100,
+        help_text='Введите название версии',
+        verbose_name='Название'
+    )
+    indication = models.BooleanField(
+        default=False,
+        verbose_name='Активная версия'
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Версия продукта'
+        verbose_name_plural = 'Версии продуктов'
+
+    def save(self, *args, **kwargs):
+        if self.indication:
+            Version.objects.filter(product=self.product).exclude(id=self.id).update(indication=False)
+        super().save(*args, **kwargs)
