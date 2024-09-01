@@ -1,9 +1,11 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
-    <div class="col-12 mb-5 text-center">
-        <a class="btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить товар</a>
-    </div>
+    {% if user.is_authenticated %}
+        <div class="col-12 mb-5 text-center">
+            <a class="btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить товар</a>
+        </div>
+    {% endif %}
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -29,12 +31,14 @@
                                         <a type="button" class="btn btn-primary btn-sm"
                                            href="{% url 'catalog:product_detail' product.pk %}"
                                            role="button">Посмотреть</a>
-                                        <a type="button" class="btn btn-primary btn-sm"
-                                           href="{% url 'catalog:product_update' product.pk %}"
-                                           role="button">Редактировать</a>
-                                        <a type="button" class="btn btn-outline-danger btn-sm"
-                                           href="{% url 'catalog:product_delete' product.pk %}"
-                                           role="button">Удалить</a>
+                                        {% if user.is_authenticated %}
+                                            <a type="button" class="btn btn-primary btn-sm"
+                                               href="{% url 'catalog:product_update' product.pk %}"
+                                               role="button">Редактировать</a>
+                                            <a type="button" class="btn btn-outline-danger btn-sm"
+                                               href="{% url 'catalog:product_delete' product.pk %}"
+                                               role="button">Удалить</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
