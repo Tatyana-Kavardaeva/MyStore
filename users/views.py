@@ -1,12 +1,15 @@
+import string
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect
-
+from django.shortcuts import get_object_or_404, redirect, render
 from config.settings import EMAIL_HOST_USER
 
 import secrets
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
-
+from django.views.generic import CreateView, FormView
+import random
 from users.form import UserRegisterForm
 from users.models import User
 
@@ -38,3 +41,27 @@ def email_verification(request, token):
     user.is_active = True
     user.save()
     return redirect(reverse('users:login'))
+
+
+class UserPasswordResetView(FormView):
+    form_class = PasswordResetForm
+    template_name = 'users/password_reset_form.html'
+    success_url = reverse_lazy('users:password-reset-done')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(self.request, "Пользователь с таким email не найден.")
+            return self.form_invalid(form)
+        new_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        user.password = make_password(new_password)
+        user.save()
+        send_mail(
+            subject='Ваш новый пароль',
+            message=f'Ваш новый пароль: {new_password}',
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[email]
+        )
+        return super().form_valid(form)
