@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">
-                              Товар
+                                Товар: {{ object.name }}
                             </h4>
                         </div>
                         <div class="card-body">
@@ -29,9 +29,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">
-                              Версии товара
+                                Версии товара
                             </h4>
                         </div>
+
                         <div class="card-body">
                             {{ formset.management_form }}
                             {% for form in formset.forms %}
