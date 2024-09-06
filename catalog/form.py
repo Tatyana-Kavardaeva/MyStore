@@ -17,7 +17,6 @@ class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
         exclude = ('owner',)
-        # fields = '__all__'
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
@@ -36,6 +35,12 @@ class ProductForm(StyleFormMixin, ModelForm):
             if word.lower() in cleaned_data.lower():
                 raise forms.ValidationError('В описание продукта добавлены недопустимые слова')
             return cleaned_data
+
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ('category', 'description', 'is_published')
 
 
 class VersionForm(StyleFormMixin, ModelForm):
