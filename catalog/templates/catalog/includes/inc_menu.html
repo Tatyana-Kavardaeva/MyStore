@@ -16,7 +16,8 @@
                         <li><a href="{% url 'users:login' %}" class="text-white">Вход</a></li>
                         <li><a href="{% url 'users:register' %}" class="text-white">Регистрация</a></li>
                     {% endif %}
-                <li><a href="{% url 'blog:blog_list' %}" class="text-white">Мы пишем</a></li>
+                    <li><a href="{% url 'blog:blog_list' %}" class="text-white">Мы пишем</a></li>
+                    <li><a href="{% url 'catalog:category_list' %}" class="text-white">Категории товаров</a></li>
                 </ul>
             </div>
         </div>
