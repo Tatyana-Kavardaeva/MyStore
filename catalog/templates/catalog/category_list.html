@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for object in object_list %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <h5 class="card-title mt-3 mb-3"><strong>{{ object.name }}</strong></h5>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    {{ object.description|slice:":100" }}{% if product.description|length > 100 %}
+                                        ...{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
